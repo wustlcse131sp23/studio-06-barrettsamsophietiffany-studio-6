@@ -14,7 +14,13 @@ public class RecursiveMethods {
 	public static double geometricSum(int n) {
 		
 			// FIXME compute the geometric sum for the first n terms recursively
+		if (n==0) {
 			return 0;
+		}
+		else {
+			double sum = geometricSum(n-1) +(1/Math.pow(2, n));
+			return sum;
+		}
 		
 	}
 
@@ -29,8 +35,12 @@ public class RecursiveMethods {
 	public static int gcd(int p, int q) {
 		
 			// FIXME compute the gcd of p and q using recursion
-			return 0;
-		
+		if (p%q==0) {
+			return q;
+		}
+		else {
+			return gcd(q, p%q);
+		}
 	}
 
 	
@@ -42,10 +52,28 @@ public class RecursiveMethods {
 	 * @return an array with the same data as the input but it reverse order
 	 */
 	public static int[] toReversed(int[] array) {
-		
+			if (array.length == 0) {
+				return new int [0];
+			}
+			else if(array.length == 1) {
+				int [] array1 = new int [1];
+				array1[0] = array[0];
+				return array1;
+			}
+			else {
+				return toReversedHelper (array,  new int [array.length], 0);
+			}
 			// FIXME create a helper method that can recursively reverse the given array
-			return new int[0];
 		
+	}
+	public static int[] toReversedHelper(int[] array, int[]reverseArray, int n) {
+		if (n==array.length) {
+			return reverseArray;
+		}
+		else {
+			reverseArray[array.length-1-n] = array[n];
+			return toReversedHelper(array,reverseArray, n+1);
+		}
 	}
 
 	/**
@@ -59,8 +87,20 @@ public class RecursiveMethods {
 	 */
 	public static void circlesUponCircles(double xCenter, double yCenter, double radius,
 			double radiusMinimumDrawingThreshold) {
+		if (radius < radiusMinimumDrawingThreshold) {
+			return;
+		}
+		else {
+			StdDraw.pause(200);
+			circlesUponCircles(xCenter+radius, yCenter, radius/3, radiusMinimumDrawingThreshold);
+			circlesUponCircles(xCenter-radius, yCenter, radius/3, radiusMinimumDrawingThreshold);
+			circlesUponCircles(xCenter, yCenter+radius, radius/3,radiusMinimumDrawingThreshold);
+			circlesUponCircles(xCenter, yCenter-radius, radius/3,radiusMinimumDrawingThreshold);
+			StdDraw.circle(xCenter, yCenter, radius);
+		}
 		
-		// FIXME
 	}
-
+	public static void main(String[] args) {
+		circlesUponCircles(0.5,0.5, 0.25, 0.01);
+	}
 }
